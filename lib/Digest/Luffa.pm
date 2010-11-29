@@ -6,7 +6,7 @@ use parent qw(Exporter Digest::base);
 
 use MIME::Base64 ();
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 $VERSION = eval $VERSION;
 
 eval {
@@ -24,33 +24,6 @@ our @EXPORT_OK = qw(
     luffa_384 luffa_384_hex luffa_384_base64
     luffa_512 luffa_512_hex luffa_512_base64
 );
-
-# TODO: convert to C.
-sub luffa_224_hex  { unpack 'H*', luffa_224(@_) }
-sub luffa_256_hex  { unpack 'H*', luffa_256(@_) }
-sub luffa_384_hex  { unpack 'H*', luffa_384(@_) }
-sub luffa_512_hex  { unpack 'H*', luffa_512(@_) }
-
-sub luffa_224_base64 {
-    my $b64 = MIME::Base64::encode(luffa_224(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub luffa_256_base64 {
-    my $b64 = MIME::Base64::encode(luffa_256(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub luffa_384_base64 {
-    my $b64 = MIME::Base64::encode(luffa_384(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub luffa_512_base64 {
-    my $b64 = MIME::Base64::encode(luffa_512(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
 
 sub add_bits {
     my ($self, $data, $bits) = @_;
@@ -75,8 +48,8 @@ Digest::Luffa - Perl interface to the Luffa digest algorithm
     use Digest::Luffa qw(luffa_256 luffa_256_hex luffa_256_base64);
 
     $digest = luffa_256($data);
-    $digest = luffa_hex_256($data);
-    $digest = luffa_base64_256($data);
+    $digest = luffa_256_hex($data);
+    $digest = luffa_256_base64($data);
 
     # Object-oriented interface
     use Digest::Luffa;
@@ -156,6 +129,8 @@ Returns the algorithm used by the object.
 =head1 SEE ALSO
 
 L<Digest>
+
+L<Task::Digest>
 
 L<http://www.sdl.hitachi.co.jp/crypto/luffa/>
 
